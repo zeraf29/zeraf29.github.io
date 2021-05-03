@@ -50,10 +50,10 @@ In my conclousion
 
 ![Image Alt 에러1](/assets/images/posts/20210503_1.PNG)
 1.에러 메시지: "Could not find gem 'logstash-devutils' in any of the gem sources listed in your Gemfile."
--원인: Logstash Plugin은 jRUBY를 사용하므로 rvm에서 jruby 설치 후 대상 엔진 변경이 필요
--비고: 윈도우즈에서는 jruby 인식이 잘 안되는 현상 발생. 가급적 WSL을 통한 우분투에서 rvm 설치 및 컴파일 권장
--Cause: Logstash Plugin is based on jRUBY. So you have to set rvm to use jruby
--E.T.C: In windows, setting jruby was not easy for me. I recommend to use WSL with Ubuntu and set rvm.
+  -원인: Logstash Plugin은 jRUBY를 사용하므로 rvm에서 jruby 설치 후 대상 엔진 변경이 필요 
+  -비고: 윈도우즈에서는 jruby 인식이 잘 안되는 현상 발생. 가급적 WSL을 통한 우분투에서 rvm 설치 및 컴파일 권장
+  -Cause: Logstash Plugin is based on jRUBY. So you have to set rvm to use jruby
+  -E.T.C: In windows, setting jruby was not easy for me. I recommend to use WSL with Ubuntu and set rvm.
 ![Image Alt 에러1해결](/assets/images/posts/20210503_2.PNG)
 
 
@@ -63,13 +63,13 @@ In my conclousion
 
 ![Image Alt 에러2](/assets/images/posts/20210503_3.PNG)
 2.에러 메시지: "Bundler could not find compatible versions for gem "logstash-core""
--원인: 플러그인 컴파일 시, Logstash의 Core등의 주요 파일들을 사용. 환경변수 설정을 통한 Logstash 정보 등록 필요(Gemfile 참고)
--방법(우분투 기준)
->1) export LOGSTASH_PATH=[Logstash 설치경로]
->2) export LOGSTASH_SOURCE=1
--Cause: For compiling plugin, you need to set directory location Logstash installed (Check Gemfile)
--How(Ubuntu): 
->1) export LOGSTASH_PATH=[Logstash Directory]
->2) export LOGSTASH_SOURCE=1
+  -원인: 플러그인 컴파일 시, Logstash의 Core등의 주요 파일들을 사용. 환경변수 설정을 통한 Logstash 정보 등록 필요(Gemfile 참고)
+  -방법(우분투 기준)
+    1.export LOGSTASH_PATH=[Logstash 설치경로]
+    2.export LOGSTASH_SOURCE=1
+  -Cause: For compiling plugin, you need to set directory location Logstash installed (Check Gemfile)
+  -How(Ubuntu): 
+    1.export LOGSTASH_PATH=[Logstash Directory]
+    2.export LOGSTASH_SOURCE=1
 ![Image Alt 에러2해결](/assets/images/posts/20210503_4.PNG)
 
