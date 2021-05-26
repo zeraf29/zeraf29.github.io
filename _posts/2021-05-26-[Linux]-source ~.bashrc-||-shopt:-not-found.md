@@ -70,13 +70,13 @@ In my conclousion
 2. Reason
   - Your linux does not use bash shell
 3. Solution
-  - Setting environment variable on shell file which your linux use.
-    1. Command echo $SHELL on console terminal 
-    2. Setting environment variables on file which console display after "echo $Shell" command
+  (1) Setting environment variable on shell file which your linux use.
+    - Command echo $SHELL on console terminal 
+    - Setting environment variables on file which console display after "echo $Shell" command
       - /bin/ksh: ksh -> ~/.kshrc
       - /bin/zsh: zsh -> ~/.zshrc
       - /bin/bash: bash -> ~/.bashrc
-    3. Reconnect terminal or command "source {shell file}"(ex: source~/.kshrc)  
-  - Change your linux shell   
-    1. checking your linux shell by command "chsh -l"  
-    2. command "chsh -s /path/to/bash" for changing your linux shell to bash shell(ex: chsh -s /bin/bash)
+    - Reconnect terminal or command "source {shell file}"(ex: source~/.kshrc)  
+  (2) Change your linux shell   
+    - checking your linux shell by command "chsh -l"  
+    - command "chsh -s /path/to/bash" for changing your linux shell to bash shell(ex: chsh -s /bin/bash)
