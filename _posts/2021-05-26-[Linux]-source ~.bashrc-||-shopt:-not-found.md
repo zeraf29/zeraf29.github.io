@@ -56,8 +56,8 @@ comments: true  # disable comments on this post
     - 콘솔 종료 후 재접속 또는 source {shell file}로 적용(예: source~/.kshrc)  
 4. 해결방법 2 
   - 리눅스 쉘 변경  
-    - chsh -l 명령으로 쉘 종류 확인 
-    - chsh -s /path/to/bash 명령으로 bash 쉘로 변경(예: chsh -s /bin/bash)
+    - "chsh -l" 명령으로 쉘 종류 확인 
+    - "chsh -s /path/to/bash" 명령으로 bash 쉘로 변경(예: chsh -s /bin/bash)
 
 
 
@@ -70,7 +70,7 @@ In my conclousion
   - Or source ~/.bashrc command show error message :shopt: not found [No such file or directory]"
 2. Reason
   - Your linux does not use bash shell
-3. Solution
+3. Solution1
   - Setting environment variable on shell file which your linux use.
     - Command echo $SHELL on console terminal 
     - Setting environment variables on file which console display after "echo $Shell" command
@@ -78,7 +78,7 @@ In my conclousion
       - /bin/zsh: zsh -> ~/.zshrc
       - /bin/bash: bash -> ~/.bashrc
   - Reconnect terminal or command "source {shell file}"(ex: source~/.kshrc)  
-4. Solution 2
+4. Solution2
   - Change your linux shell  
     - checking your linux shell by command "chsh -l"  
     - command "chsh -s /path/to/bash" for changing your linux shell to bash shell(ex: chsh -s /bin/bash)
