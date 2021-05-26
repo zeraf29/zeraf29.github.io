@@ -65,18 +65,18 @@ In my conclousion
 > 2) Setting shell file on your environment or change your linux shell what you want
 
 1. Case  
-  1) Not adjusting environemnt variable after setting on ~/.bashrc file(export VAR=VALUE). Even thought you reconnect terminal.  
-  2) Or source ~/.bashrc command show error message :shopt: not found [No such file or directory]"
+  - Not adjusting environemnt variable after setting on ~/.bashrc file(export VAR=VALUE). Even thought you reconnect terminal.  
+  - Or source ~/.bashrc command show error message :shopt: not found [No such file or directory]"
 2. Reason
-  1) Your linux does not use bash shell
+  - Your linux does not use bash shell
 3. Solution
-  1) Setting environment variable on shell file which your linux use.
-    - Command echo $SHELL on console terminal 
-    - Setting environment variables on file which console display after "echo $Shell" command
+  - Setting environment variable on shell file which your linux use.
+    1. Command echo $SHELL on console terminal 
+    2. Setting environment variables on file which console display after "echo $Shell" command
       - /bin/ksh: ksh -> ~/.kshrc
       - /bin/zsh: zsh -> ~/.zshrc
       - /bin/bash: bash -> ~/.bashrc
-    - Reconnect terminal or command "source {shell file}"(ex: source~/.kshrc)  
-  2) Change your linux shell   
-    - checking your linux shell by command "chsh -l"  
-    - command "chsh -s /path/to/bash" for changing your linux shell to bash shell(ex: chsh -s /bin/bash)
+  - Reconnect terminal or command "source {shell file}"(ex: source~/.kshrc)  
+  - Change your linux shell  
+    1. checking your linux shell by command "chsh -l"  
+    2. command "chsh -s /path/to/bash" for changing your linux shell to bash shell(ex: chsh -s /bin/bash)
