@@ -38,7 +38,7 @@ author:
 comments: true  # disable comments on this post
 ---
 결론부터 말하자면
-> 1) Bash쉘을 안쓰는데 ~/.bashrc에 적용 하면 오류 발생 
+> 1) Bash쉘을 안쓰는데 ~/.bashrc에 적용 하면 오류 발생  
 > 2) 사용하는 쉘에 맞는 파일에 적용 필요(kshrc, zshrc 등)
 
 1. 증상
@@ -54,8 +54,8 @@ comments: true  # disable comments on this post
       - /bin/zsh: zsh 쉘 -> ~/.zshrc
       - /bin/bash: bash 쉘 -> ~/.bashrc
     - 콘솔 종료 후 재접속 또는 source {shell file}로 적용(예: source~/.kshrc)  
-4. 해결방법 2 
-  - 리눅스 쉘 변경  
+4. 해결방법 2  
+  - 리눅스 쉘 변경    
     - "chsh -l" 명령으로 쉘 종류 확인 
     - "chsh -s /path/to/bash" 명령으로 bash 쉘로 변경(예: chsh -s /bin/bash)
 
@@ -78,7 +78,7 @@ In my conclousion
       - /bin/zsh: zsh -> ~/.zshrc
       - /bin/bash: bash -> ~/.bashrc
   - Reconnect terminal or command "source {shell file}"(ex: source~/.kshrc)  
-4. Solution2
-  - Change your linux shell  
+4. Solution2  
+  - Change your linux shell   
     - checking your linux shell by command "chsh -l"  
     - command "chsh -s /path/to/bash" for changing your linux shell to bash shell(ex: chsh -s /bin/bash)
