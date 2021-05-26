@@ -48,16 +48,15 @@ comments: true  # disable comments on this post
   - 사용하고 있는 쉘이 bash가 아님
 3. 해결방법
   - 사용하고 있는 쉘에 맞는 파일에 설정  
-    1. 콘솔에 echo $SHELL 명령 
-    2. 콘솔에 표시된 쉘에 맞는 쉘 파일에 환경변수 등록
+    - 콘솔에 echo $SHELL 명령 
+    - 콘솔에 표시된 쉘에 맞는 쉘 파일에 환경변수 등록
       - /bin/ksh: ksh 쉘 -> ~/.kshrc
       - /bin/zsh: zsh 쉘 -> ~/.zshrc
       - /bin/bash: bash 쉘 -> ~/.bashrc
-    3. 콘솔 종료 후 재접속 또는 source {shell file}로 적용(예: source~/.kshrc)  
-  
+    - 콘솔 종료 후 재접속 또는 source {shell file}로 적용(예: source~/.kshrc)  
   - 사용하고 있는 쉘을 교체   
-    1. chsh -l 명령으로 쉘 종류 확인 
-    2. chsh -s /path/to/bash 명령으로 bash 쉘로 변경(예: chsh -s /bin/bash)
+    - chsh -l 명령으로 쉘 종류 확인 
+    - chsh -s /path/to/bash 명령으로 bash 쉘로 변경(예: chsh -s /bin/bash)
 
 
 
