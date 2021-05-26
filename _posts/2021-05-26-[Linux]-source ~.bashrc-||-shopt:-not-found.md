@@ -46,7 +46,7 @@ comments: true  # disable comments on this post
   - 또는 source ~/.bashrc 명령 시 shopt: not found [No such file or directory] 에러가나옴
 2. 원인
   - 사용하고 있는 쉘이 bash가 아님
-3. 해결방법
+3. 해결방법 1
   - 사용하고 있는 쉘에 맞는 파일에 설정  
     - 콘솔에 echo $SHELL 명령 
     - 콘솔에 표시된 쉘에 맞는 쉘 파일에 환경변수 등록
@@ -54,9 +54,9 @@ comments: true  # disable comments on this post
       - /bin/zsh: zsh 쉘 -> ~/.zshrc
       - /bin/bash: bash 쉘 -> ~/.bashrc
     - 콘솔 종료 후 재접속 또는 source {shell file}로 적용(예: source~/.kshrc)  
-  - 사용하고 있는 쉘을 교체   
-    - chsh -l 명령으로 쉘 종류 확인 
-    - chsh -s /path/to/bash 명령으로 bash 쉘로 변경(예: chsh -s /bin/bash)
+4. 해결방법 2   
+  - chsh -l 명령으로 쉘 종류 확인 
+  - chsh -s /path/to/bash 명령으로 bash 쉘로 변경(예: chsh -s /bin/bash)
 
 
 
