@@ -53,8 +53,8 @@ comments: true  # disable comments on this post
       - /bin/ksh: ksh 쉘 -> ~/.kshrc
       - /bin/zsh: zsh 쉘 -> ~/.zshrc
       - /bin/bash: bash 쉘 -> ~/.bashrc
-    3. 콘솔 종료 후 재접속 또는 source {shell file}로 적용(예: source~/.kshrc)  
-- 사용하고 있는 쉘을 교체   
+    3. 콘솔 종료 후 재접속 또는 source {shell file}로 적용(예: source~/.kshrc)
+  - 사용하고 있는 쉘을 교체   
     1. chsh -l 명령으로 쉘 종류 확인 
     2. chsh -s /path/to/bash 명령으로 bash 쉘로 변경(예: chsh -s /bin/bash)
 
