@@ -1,9 +1,9 @@
 ---
 # optional alternate title to replace page.title at the top of the page
-alt_title: "[Logstash] Plugin 오픈 소스 Bundle install/update 오류"
+alt_title: "[Linux] Source ~/.bashrc 실행 시 shopt: not found 오류 표시"
 
 # optional sub-title below the page title
-sub_title: "[Logstash] Plugin open source Bundle install/update error"
+sub_title: "[Linux] source ~/.bashrc command return >> shopt: not found"
 
 categories:
   - Linux
@@ -54,9 +54,10 @@ comments: true  # disable comments on this post
       - /bin/zsh: zsh 쉘 -> ~/.zshrc
       - /bin/bash: bash 쉘 -> ~/.bashrc
     - 콘솔 종료 후 재접속 또는 source {shell file}로 적용(예: source~/.kshrc)  
-4. 해결방법 2   
-  - chsh -l 명령으로 쉘 종류 확인 
-  - chsh -s /path/to/bash 명령으로 bash 쉘로 변경(예: chsh -s /bin/bash)
+4. 해결방법 2 
+  - 리눅스 쉘 변경  
+    - chsh -l 명령으로 쉘 종류 확인 
+    - chsh -s /path/to/bash 명령으로 bash 쉘로 변경(예: chsh -s /bin/bash)
 
 
 
@@ -77,6 +78,7 @@ In my conclousion
       - /bin/zsh: zsh -> ~/.zshrc
       - /bin/bash: bash -> ~/.bashrc
   - Reconnect terminal or command "source {shell file}"(ex: source~/.kshrc)  
-4. Change your linux shell  
-  - checking your linux shell by command "chsh -l"  
-  - command "chsh -s /path/to/bash" for changing your linux shell to bash shell(ex: chsh -s /bin/bash)
+4. Solution 2
+  - Change your linux shell  
+    - checking your linux shell by command "chsh -l"  
+    - command "chsh -s /path/to/bash" for changing your linux shell to bash shell(ex: chsh -s /bin/bash)
