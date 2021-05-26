@@ -65,7 +65,7 @@ In my conclousion
 > 2) Setting shell file on your environment or change your linux shell what you want
 
 1. Case  
-  1) Not adjusting environemnt variable after setting on ~/.bashrc file(export VAR=VALUE). Even thought you reconnect terminal.
+  1) Not adjusting environemnt variable after setting on ~/.bashrc file(export VAR=VALUE). Even thought you reconnect terminal.  
   2) Or source ~/.bashrc command show error message :shopt: not found [No such file or directory]"
 2. Reason
   1) Your linux does not use bash shell
