@@ -87,5 +87,5 @@ defaults:
       layout: post
       read_time: false
 
-disqus:
-  shortname: zeraf29-github-blog
+#disqus:
+#  shortname: zeraf29-github-blog
