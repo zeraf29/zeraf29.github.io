@@ -4,7 +4,7 @@ url: "https://zeraf29.github.io"
 
 # Blog Settings
 theme_settings :
-  title : Grape Theme
+  title : zeraf29's Blog
   favicon : assets/favicon.ico
 
   # Profile Settings
