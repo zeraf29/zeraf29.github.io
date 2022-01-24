@@ -27,7 +27,6 @@ twitter_username:
 github_username: zeraf29
 linkedin_username: zeraf29
 google_analytics: UA-192744882-2
-logo: "/assets/images/logo.jpg"
 search: true
 search_full_content: false # true, false (default)
 search_provider: lunr # (default), algolia
