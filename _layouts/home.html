@@ -35,19 +35,10 @@ layout: default
                   {{ post.date | date: "%B %-d, %Y" }}
                 </span>
                 <ul class="tag-wrap">
-                  {% tagsCount = 0 %}
                   {% for tag in post.tags %}
-                    {% if tagsCount < 10 %}
-                      {% tagsCount = tagsCount + 1 %}
-                      <a href="{{site.baseurl}}/tags#{{ tag | cgi_escape }}">
-                        <li class="tag-sm">{{ tag }}</li>
-                      </a>
-                    {% else %}
-                      <a href="{{site.baseurl}}/tags#{{ tag | cgi_escape }}">
-                        <li class="tag-sm">...</li>
-                      </a>
-                      {% break %}
-                    {% endif %}
+                    <a href="{{site.baseurl}}/tags#{{ tag | cgi_escape }}">
+                      <li class="tag-sm">{{ tag }}</li>
+                    </a>
                   {% endfor %}
                 </ul>
               </div>
