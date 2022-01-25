@@ -1,0 +1,49 @@
+# Site Settings
+baseurl: ""
+url: "https://zeraf29.github.io"
+
+# Blog Settings
+theme_settings :
+  title : zeraf29's Blog
+  favicon : assets/favicon.ico
+
+  # Profile Settings
+  profile :
+    image : assets/img/jinhyupkim.jpg
+    username : Jinhyup Kim
+    description : IT, Food, Travel, And other things.
+    experience :
+      - start : 2017-05-03
+        end : 2018-05-06
+        experience : company name, title
+    skills : 
+      - skill : Java
+        value : 85  # Percent value
+        
+  # Icons
+  icons :
+    email:  # Full email address, e.g. "sample@google.com"
+    linkedin:  # Full URL 
+    github: zeraf29
+    gitlab: 
+    bitbucket: 
+    google_plus:
+    twitter:
+    youtube:
+    facebook:
+    instagram:
+
+  # Disqus
+  disqus_shortname :
+
+# Pagination
+paginate: 5
+paginate_path: "blog/page:num"
+
+# Build Ssttings
+sass:
+  sass_dir: _sass
+  style: :compressed
+gems: [jekyll-paginate]
+bootstrap:
+  assets: true
