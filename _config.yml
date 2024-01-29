@@ -12,10 +12,10 @@
 
 # theme                  : "minimal-mistakes-jekyll"
 # remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "neon" #"default", "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "dark" #"default", "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
-locale                   : "ko-KR"
+locale                   : "en-US"
 title                    : "zeraf29's Blog"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
@@ -103,9 +103,9 @@ analytics:
 # Site Author
 author:
   name             : "zeraf29"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Test"
-  location         : "Somewhere"
+  avatar           : "/assets/img/common/zeraf29_logo.png" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  bio              : "Stay focused, go after your dreams and keep moving towards your goals."
+  location         : "R.O.Korea"
   email            :
   links:
     - label: "zeraf29@gmail.com"
@@ -114,9 +114,9 @@ author:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/zeraf29"
-    - label: "Blog(Old)"
-      icon: "fas fa-fw fa-link"
-      url: "http://toryjinloco.com/"
+    - label: "LinkedIn"
+      icon: "fas fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/zeraf29/"
     #- label: "Instagram"
     #  icon: "fab fa-fw fa-instagram"
       # url: "https://instagram.com/"
@@ -133,9 +133,9 @@ footer:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/zeraf29"
-    - label: "Blog(Old)"
-      icon: "fas fa-fw fa-link"
-      url: "http://toryjinloco.com/"
+    - label: "LinkedIn"
+      icon: "fas fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/zeraf29/"
     #- label: "Twitter"
     #  icon: "fab fa-fw fa-twitter-square"
       # url:
