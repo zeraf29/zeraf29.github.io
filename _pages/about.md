@@ -2,8 +2,8 @@
 permalink: /about/
 title: "About"
 excerpt: "zeraf29's daily log"
-last_modified_at: 2024-01-15T17:29:26-04:00
-toc: true
+layout: about
+author_profile: true
 published: true
 ---
 
