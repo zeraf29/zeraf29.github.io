@@ -2,5 +2,5 @@
 permalink: /about/
 title: "About"
 excerpt: "zeraf29's daily log"
-layout: tags
+toc: true
 ---
