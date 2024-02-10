@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-02-10T21:55:57+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">zeraf29’s Blog</title><subtitle>IT, Food, Travel, And other things.</subtitle><author><name>zeraf29</name></author><entry><title type="html">[linux] What Is Different Between Su And Sudo</title><link href="http://localhost:4000/2024/02/10/Linux-what-is-different-between-su-and-sudo.html" rel="alternate" type="text/html" title="[linux] What Is Different Between Su And Sudo" /><published>2024-02-10T00:00:00+09:00</published><updated>2024-02-10T00:00:00+09:00</updated><id>http://localhost:4000/2024/02/10/%5BLinux%5D-what-is-different-between-su-and-sudo</id><content type="html" xml:base="http://localhost:4000/2024/02/10/Linux-what-is-different-between-su-and-sudo.html"><![CDATA[]]></content><author><name>zeraf29</name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">[springboot] Load Bean Order Isuuse Bean Post Processor</title><link href="http://localhost:4000/springboot/2024/02/09/SpringBoot-load-bean-order-isuuse-bean-post-processor.html" rel="alternate" type="text/html" title="[springboot] Load Bean Order Isuuse Bean Post Processor" /><published>2024-02-09T00:00:00+09:00</published><updated>2024-02-09T23:40:52+09:00</updated><id>http://localhost:4000/springboot/2024/02/09/%5BSpringBoot%5D-load-bean-order-isuuse-bean-post-processor</id><content type="html" xml:base="http://localhost:4000/springboot/2024/02/09/SpringBoot-load-bean-order-isuuse-bean-post-processor.html"><![CDATA[<ol>
+  <li>Issue
+    <ul>
+      <li>when spring boot is boot, each beans are registred by sequentially. Normally spring boot load them each order by follow dependency injection.</li>
+    </ul>
+    <ul>
+      <li>But sometimes injected bean is not loaded before, then spring boot can’t find target bean infromation.</li>
+      <li>I met this situation at each bean are located in different projects.
+      - Example</li>
+      <li>Engine project has refer to EngineCommon project.</li>
+      <li>Engine project has MessageAdapter Bean, and EngineCommon project has NetworkInit bean.</li>
+      <li>MessageAdapter bean is injected to NetworkInit bean.</li>
+      <li>Engine project has bootRun.</li>
+      <li>In this situation, Spring boot can’t find MessageAdapter bean when NetworkInit bean is loaded while Engine project boot.</li>
+    </ul>
+  </li>
+  <li>Reason
+    <ul>
+      <li>Because MessageAdapter bean will be loaded after EngineCommon project’s bean are loaded first.</li>
+      <li>Also @Order annotation is not work for setting ordering between them.</li>
+    </ul>
+  </li>
+  <li>Solution
+    <ul>
+      <li>I make a BeanPostProcessor.</li>
+      <li>Spring’s BeanPostProcessor gives us hooks into the Spring bean lifecycle to modify its configuration.</li>
+      <li>BeanPostProcessor will be acted last step in loaded bean, and it can modify beans before regiser them to spring boot.</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/** Engine Project **/
+
+// MessageAdapt.java
+// MessageAdapt
+public class MessageAdapt{ 
+}
+
+// MessageAdaptConfiguration.java
+// Bean configuration
+@Configuration
+public class MessageAdaptConfiguration {
+
+    @Bean
+    public MessageAdapt messageAdapt() {
+        return new MessageAdapt();
+    }
+}
+
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/** EngineCommon Project **/
+
+// NetworkInit.java
+// NetworkInit
+public class NetworkInit{
+  private MessageAdapt messageAdapt
+  
+  /**...omit...**/
+  
+  public void setNetworkInit(MessageAdapt messageAdapt){
+    this.messageAdapt = messageAdapt;
+  }
+  
+    /**...omit...**/
+}
+
+// NetworkInitConfiguration.java
+// Bean configuration
+@Configuration
+public class NetwokInitConfiguration {
+
+    @Bean
+    public NetworkInit networkInit() {
+        return new NetworkInit();
+    }
+    
+    /** Must BeanPostProcessor is registred by bean **/
+    @Bean
+    public NetworkInitBeanPostProcessor networkInitBeanPostProcessor() {
+      return new NetworkInitBeanPostProcessor();
+    }
+}
+
+//NetworkInitBeanPostProcessor.java
+//
+public class NetworkInitBeanPostProcessor implements BeanPostProcessor {
+
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        if (beanName.equals("networkInit")) {
+            
+            MessageAdapt messageAdapt = applicationContext.getBean(MessageAdapt.class);
+
+            ((NetworkInit) bean).setNetworkInit(messageAdapt);
+        }
+        return bean;
+    }
+}
+
+
+</code></pre></div></div>
+<ol>
+  <li>Reference
+    <ul>
+      <li>https://www.baeldung.com/spring-beanpostprocessor</li>
+      <li>https://jaimemin.tistory.com/2028</li>
+      <li>https://groups.google.com/g/gwt-sl/c/SDb3hd96MZg</li>
+    </ul>
+  </li>
+</ol>]]></content><author><name>Jinhyup Kim</name></author><category term="SpringBoot" /><category term="SpringBoot" /><category term="Spring" /><category term="Java" /><category term="order" /><category term="BeanPostProcessor" /><summary type="html"><![CDATA[Issue when spring boot is boot, each beans are registred by sequentially. Normally spring boot load them each order by follow dependency injection. But sometimes injected bean is not loaded before, then spring boot can’t find target bean infromation. I met this situation at each bean are located in different projects. - Example Engine project has refer to EngineCommon project. Engine project has MessageAdapter Bean, and EngineCommon project has NetworkInit bean. MessageAdapter bean is injected to NetworkInit bean. Engine project has bootRun. In this situation, Spring boot can’t find MessageAdapter bean when NetworkInit bean is loaded while Engine project boot. Reason Because MessageAdapter bean will be loaded after EngineCommon project’s bean are loaded first. Also @Order annotation is not work for setting ordering between them. Solution I make a BeanPostProcessor. Spring’s BeanPostProcessor gives us hooks into the Spring bean lifecycle to modify its configuration. BeanPostProcessor will be acted last step in loaded bean, and it can modify beans before regiser them to spring boot.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/top_banner.jpg" /><media:content medium="image" url="http://localhost:4000/assets/images/top_banner.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">[springboot] Actuator Dependency And Swagger Stater 3.0.0 Conflict</title><link href="http://localhost:4000/springboot/2024/01/31/SpringBoot-Actuator-dependency-and-Swagger-Stater-3.0.0-conflict.html" rel="alternate" type="text/html" title="[springboot] Actuator Dependency And Swagger Stater 3.0.0 Conflict" /><published>2024-01-31T00:00:00+09:00</published><updated>2024-02-01T00:06:52+09:00</updated><id>http://localhost:4000/springboot/2024/01/31/%5BSpringBoot%5D-Actuator-dependency-and-Swagger-Stater-3.0.0-conflict</id><content type="html" xml:base="http://localhost:4000/springboot/2024/01/31/SpringBoot-Actuator-dependency-and-Swagger-Stater-3.0.0-conflict.html"><![CDATA[<ol>
+  <li>Issue
+    <ul>
+      <li>When I use both Actuator and Swagger in a project, I met below error message</li>
+    </ul>
+    <ul>
+      <li>ERROR org.springframework.boot.SpringApplication: Application run failed
+org.springframework.context.ApplicationContextException: Failed to start bean ‘documentationPluginsBootstrapper’
+      - Environment</li>
+      <li>Spring boot: 2.7.17</li>
+      <li>Spring Actuator: Same version with Spring boot</li>
+      <li>Spring fox swagger: 3.0.0
+        <ul>
+          <li>io.springfox:springfox-swagger2:3.0.0</li>
+          <li>io.springfox:springfox-swagger-ui:3.0.0</li>
+          <li>io.springfox:springfox-boot-starter:3.0.0</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Reason
+    <ul>
+      <li>Swagger and Actuator, they two are access endpoint in spring boot. So they have conflict of dependency each other.</li>
+      <li>Springfox swagger assume that Spring MVC use to Ant-based path matcher. But Upper Spring MVC 2.6.x is changed from Ant-based path matcher to PathPattern-based matcher.</li>
+      <li>Both two make this error</li>
+    </ul>
+  </li>
+  <li>Solution
+    <ul>
+      <li>Put below option under application.yml
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spring:
+  mvc:
+ pathmatch:
+   matching-strategy: ant_path_matcher
+</code></pre></div>        </div>
+      </li>
+      <li>And then, Regist BeanPostProcessor bean for SpringfoxHandler like below example
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Configuration
+public class Config {
+@Bean
+public static BeanPostProcessor springfoxHandlerProviderBeanPostProcessor() {
+return new BeanPostProcessor() {
+
+     @Override
+     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+         if (bean instanceof WebMvcRequestHandlerProvider || bean instanceof WebFluxRequestHandlerProvider) {
+             customizeSpringfoxHandlerMappings(getHandlerMappings(bean));
+         }
+         return bean;
+     }
+
+     private &lt;T extends RequestMappingInfoHandlerMapping&gt; void customizeSpringfoxHandlerMappings(List&lt;T&gt; mappings) {
+         List&lt;T&gt; copy = mappings.stream()
+                 .filter(mapping -&gt; mapping.getPatternParser() == null)
+                 .collect(Collectors.toList());
+         mappings.clear();
+         mappings.addAll(copy);
+     }
+
+     @SuppressWarnings("unchecked")
+     private List&lt;RequestMappingInfoHandlerMapping&gt; getHandlerMappings(Object bean) {
+         try {
+             Field field = ReflectionUtils.findField(bean.getClass(), "handlerMappings");
+             field.setAccessible(true);
+             return (List&lt;RequestMappingInfoHandlerMapping&gt;) field.get(bean);
+         } catch (IllegalArgumentException | IllegalAccessException e) {
+             throw new IllegalStateException(e);
+         }
+     }
+ };
+ }
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>Reference
+    <ul>
+      <li>https://dkswnkk.tistory.com/672</li>
+    </ul>
+  </li>
+</ol>]]></content><author><name>Jinhyup Kim</name></author><category term="SpringBoot" /><category term="SpringBoot" /><category term="Spring" /><category term="Java" /><category term="SpringFox" /><category term="Swagger" /><category term="Actuator" /><summary type="html"><![CDATA[Issue When I use both Actuator and Swagger in a project, I met below error message ERROR org.springframework.boot.SpringApplication: Application run failed org.springframework.context.ApplicationContextException: Failed to start bean ‘documentationPluginsBootstrapper’ - Environment Spring boot: 2.7.17 Spring Actuator: Same version with Spring boot Spring fox swagger: 3.0.0 io.springfox:springfox-swagger2:3.0.0 io.springfox:springfox-swagger-ui:3.0.0 io.springfox:springfox-boot-starter:3.0.0 Reason Swagger and Actuator, they two are access endpoint in spring boot. So they have conflict of dependency each other. Springfox swagger assume that Spring MVC use to Ant-based path matcher. But Upper Spring MVC 2.6.x is changed from Ant-based path matcher to PathPattern-based matcher. Both two make this error Solution Put below option under application.yml spring: mvc: pathmatch: matching-strategy: ant_path_matcher And then, Regist BeanPostProcessor bean for SpringfoxHandler like below example ``` @Configuration public class Config { @Bean public static BeanPostProcessor springfoxHandlerProviderBeanPostProcessor() { return new BeanPostProcessor() {]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/top_banner.jpg" /><media:content medium="image" url="http://localhost:4000/assets/images/top_banner.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">[linux] Print Array Values Each Line In Bash Shell</title><link href="http://localhost:4000/linux/2024/01/30/Linux-print-array-values-each-line-in-bash-shell.html" rel="alternate" type="text/html" title="[linux] Print Array Values Each Line In Bash Shell" /><published>2024-01-30T00:00:00+09:00</published><updated>2024-01-31T00:06:52+09:00</updated><id>http://localhost:4000/linux/2024/01/30/%5BLinux%5D-print-array-values-each-line-in-bash-shell</id><content type="html" xml:base="http://localhost:4000/linux/2024/01/30/Linux-print-array-values-each-line-in-bash-shell.html"><![CDATA[<ol>
+  <li>Purpose
+    <ul>
+      <li>Split String by delimiter and save them to array. Then print each values.</li>
+    </ul>
+  </li>
+  <li>Solution
+    <ul>
+      <li>
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>string=“word1,word2,word3” 
+array=(${string//,/ }) # Split using comma as delimiter 
+for element in “${array[@]}”; do 
+ echo “$element” 
+done
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>]]></content><author><name>Jinhyup Kim</name></author><category term="Linux" /><category term="Linux" /><category term="Shell" /><category term="bashrc" /><category term="bash" /><category term="ksh" /><category term="zsh" /><summary type="html"><![CDATA[Purpose Split String by delimiter and save them to array. Then print each values. Solution string=“word1,word2,word3” array=(${string//,/ }) # Split using comma as delimiter for element in “${array[@]}”; do echo “$element” done]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/top_banner.jpg" /><media:content medium="image" url="http://localhost:4000/assets/images/top_banner.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">[logstash] Jdbc Rowid Where in Clause</title><link href="http://localhost:4000/linux/2021/06/09/Logstash-jdbc-rowid-where-in-clause.html" rel="alternate" type="text/html" title="[logstash] Jdbc Rowid Where in Clause" /><published>2021-06-09T00:00:00+09:00</published><updated>2021-05-27T01:06:52+09:00</updated><id>http://localhost:4000/linux/2021/06/09/%5BLogstash%5D-jdbc-rowid-where%20in-clause</id><content type="html" xml:base="http://localhost:4000/linux/2021/06/09/Logstash-jdbc-rowid-where-in-clause.html"><![CDATA[<p>결론부터 말하자면</p>
+<blockquote>
+  <p>1) Bash쉘을 안쓰는데 ~/.bashrc에 적용 하면 오류 발생<br />
+2) 사용하는 쉘에 맞는 파일에 적용 필요(kshrc, zshrc 등)</p>
+</blockquote>
+
+<ol>
+  <li>증상
+    <ul>
+      <li>~/.bashrc에 변수 설정(export VAR=VALUE)을 한 후 터미널 재 접속을 해도 적용이 안됨</li>
+      <li>또는 source ~/.bashrc 명령 시 shopt: not found [No such file or directory] 에러가나옴</li>
+    </ul>
+  </li>
+  <li>원인
+    <ul>
+      <li>사용하고 있는 쉘이 bash가 아님</li>
+    </ul>
+  </li>
+  <li>해결방법 1
+    <ul>
+      <li>사용하고 있는 쉘에 맞는 파일에 설정</li>
+    </ul>
+    <ul>
+      <li>콘솔에 echo $SHELL 명령</li>
+      <li>콘솔에 표시된 쉘에 맞는 쉘 파일에 환경변수 등록
+        <ul>
+          <li>/bin/ksh: ksh 쉘 -&gt; ~/.kshrc</li>
+          <li>/bin/zsh: zsh 쉘 -&gt; ~/.zshrc</li>
+          <li>/bin/bash: bash 쉘 -&gt; ~/.bashrc</li>
+        </ul>
+      </li>
+      <li>콘솔 종료 후 재접속 또는 source {shell file}로 적용(예: source~/.kshrc)</li>
+    </ul>
+  </li>
+  <li>해결방법 2
+    <ul>
+      <li>리눅스 쉘 변경</li>
+    </ul>
+    <ul>
+      <li>“chsh -l” 명령으로 쉘 종류 확인</li>
+      <li>“chsh -s /path/to/bash” 명령으로 bash 쉘로 변경(예: chsh -s /bin/bash)</li>
+    </ul>
+  </li>
+</ol>
+
+<p>In my conclousion</p>
+<blockquote>
+  <p>1) Your linux does not use bash shell.<br />
+2) Setting shell file on your environment or change your linux shell what you want</p>
+</blockquote>
+
+<ol>
+  <li>Case
+    <ul>
+      <li>Not adjusting environemnt variable after setting on ~/.bashrc file(export VAR=VALUE). Even thought you reconnect terminal.</li>
+      <li>Or source ~/.bashrc command show error message :shopt: not found [No such file or directory]”</li>
+    </ul>
+  </li>
+  <li>Reason
+    <ul>
+      <li>Your linux does not use bash shell</li>
+    </ul>
+  </li>
+  <li>Solution1
+    <ul>
+      <li>Setting environment variable on shell file which your linux use.</li>
+    </ul>
+    <ul>
+      <li>Command echo $SHELL on console terminal</li>
+      <li>Setting environment variables on file which console display after “echo $Shell” command
+        <ul>
+          <li>/bin/ksh: ksh -&gt; ~/.kshrc</li>
+          <li>/bin/zsh: zsh -&gt; ~/.zshrc</li>
+          <li>/bin/bash: bash -&gt; ~/.bashrc
+    - Reconnect terminal or command “source {shell file}”(ex: source~/.kshrc)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Solution2
+    <ul>
+      <li>Change your linux shell</li>
+    </ul>
+    <ul>
+      <li>checking your linux shell by command “chsh -l”</li>
+      <li>command “chsh -s /path/to/bash” for changing your linux shell to bash shell(ex: chsh -s /bin/bash)</li>
+    </ul>
+  </li>
+</ol>]]></content><author><name>Jinhyup Kim</name></author><category term="Linux" /><category term="Linux" /><category term="Shell" /><category term="bashrc" /><category term="bash" /><category term="ksh" /><category term="zsh" /><summary type="html"><![CDATA[결론부터 말하자면 1) Bash쉘을 안쓰는데 ~/.bashrc에 적용 하면 오류 발생 2) 사용하는 쉘에 맞는 파일에 적용 필요(kshrc, zshrc 등)]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/top_banner.jpg" /><media:content medium="image" url="http://localhost:4000/assets/images/top_banner.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">[java] postconstruct</title><link href="http://localhost:4000/linux/2021/06/09/Java-postConstruct.html" rel="alternate" type="text/html" title="[java] postconstruct" /><published>2021-06-09T00:00:00+09:00</published><updated>2021-05-27T01:06:52+09:00</updated><id>http://localhost:4000/linux/2021/06/09/%5BJava%5D%20postConstruct</id><content type="html" xml:base="http://localhost:4000/linux/2021/06/09/Java-postConstruct.html"><![CDATA[<p>결론부터 말하자면</p>
+<blockquote>
+
+</blockquote>
+
+<ol>
+  <li>postConstruct, afterPropertieSet 차이구분</li>
+  <li>PostConstruct  완료전에 기동 완료 안됨?</li>
+</ol>
+
+<p>In my conclousion</p>
+<blockquote>
+  <p>1)</p>
+</blockquote>
+
+<ol>
+  <li>Case<br />
+  -s /bin/bash)</li>
+</ol>]]></content><author><name>Jinhyup Kim</name></author><category term="Linux" /><category term="Linux" /><category term="Shell" /><category term="bashrc" /><category term="bash" /><category term="ksh" /><category term="zsh" /><summary type="html"><![CDATA[결론부터 말하자면]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/top_banner.jpg" /><media:content medium="image" url="http://localhost:4000/assets/images/top_banner.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">[linux] Source ~.bashrc Shopt Not Found 2</title><link href="http://localhost:4000/linux/2021/05/26/Linux-source-~.bashrc-shopt-not-found-2.html" rel="alternate" type="text/html" title="[linux] Source ~.bashrc Shopt Not Found 2" /><published>2021-05-26T00:00:00+09:00</published><updated>2021-07-13T01:06:52+09:00</updated><id>http://localhost:4000/linux/2021/05/26/%5BLinux%5D-source%20~.bashrc-shopt-not-found-2</id><content type="html" xml:base="http://localhost:4000/linux/2021/05/26/Linux-source-~.bashrc-shopt-not-found-2.html"><![CDATA[<ol>
+  <li>
+    <p>Data class에 전체 파라미터가 들어간 생성자를 호출 -&gt; 자바 파라미터 자릿수 오버 에러 
+Invalid methodparameters method attribute length in class file</p>
+  </li>
+  <li>안에 변수 설정 -&gt; 마이바티스 생성자 매핑 에러 (마이바티스는 아무것도 없는 클래스가 기본 필요)</li>
+  <li>최소 선언 생성자 설정 -&gt; 아무것도 없는 생성자 생성 (JVM은 기본 생성자의 파라미터의 디폴트 값이 다 있을 경우,</li>
+</ol>
+
+<p>https://discuss.kotlinlang.org/t/kotlin-and-mybatis-association/3907/3
+https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&amp;blogId=jinopia&amp;logNo=220409329622</p>]]></content><author><name>Jinhyup Kim</name></author><category term="Linux" /><category term="Linux" /><category term="Shell" /><category term="bashrc" /><category term="bash" /><category term="ksh" /><category term="zsh" /><summary type="html"><![CDATA[Data class에 전체 파라미터가 들어간 생성자를 호출 -&gt; 자바 파라미터 자릿수 오버 에러 Invalid methodparameters method attribute length in class file]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/top_banner.jpg" /><media:content medium="image" url="http://localhost:4000/assets/images/top_banner.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">[linux] Source ~.bashrc Shopt Not Found</title><link href="http://localhost:4000/linux/2021/05/26/Linux-source-~.bashrc-shopt-not-found.html" rel="alternate" type="text/html" title="[linux] Source ~.bashrc Shopt Not Found" /><published>2021-05-26T00:00:00+09:00</published><updated>2021-05-27T01:06:52+09:00</updated><id>http://localhost:4000/linux/2021/05/26/%5BLinux%5D-source%20~.bashrc-shopt-not-found</id><content type="html" xml:base="http://localhost:4000/linux/2021/05/26/Linux-source-~.bashrc-shopt-not-found.html"><![CDATA[<p>결론부터 말하자면</p>
+<blockquote>
+  <p>1) Bash쉘을 안쓰는데 ~/.bashrc에 적용 하면 오류 발생<br />
+2) 사용하는 쉘에 맞는 파일에 적용 필요(kshrc, zshrc 등)</p>
+</blockquote>
+
+<ol>
+  <li>증상
+    <ul>
+      <li>~/.bashrc에 변수 설정(export VAR=VALUE)을 한 후 터미널 재 접속을 해도 적용이 안됨</li>
+      <li>또는 source ~/.bashrc 명령 시 shopt: not found [No such file or directory] 에러가나옴</li>
+    </ul>
+  </li>
+  <li>원인
+    <ul>
+      <li>사용하고 있는 쉘이 bash가 아님</li>
+    </ul>
+  </li>
+  <li>해결방법 1
+    <ul>
+      <li>사용하고 있는 쉘에 맞는 파일에 설정</li>
+    </ul>
+    <ul>
+      <li>콘솔에 echo $SHELL 명령</li>
+      <li>콘솔에 표시된 쉘에 맞는 쉘 파일에 환경변수 등록
+        <ul>
+          <li>/bin/ksh: ksh 쉘 -&gt; ~/.kshrc</li>
+          <li>/bin/zsh: zsh 쉘 -&gt; ~/.zshrc</li>
+          <li>/bin/bash: bash 쉘 -&gt; ~/.bashrc</li>
+        </ul>
+      </li>
+      <li>콘솔 종료 후 재접속 또는 source {shell file}로 적용(예: source~/.kshrc)</li>
+    </ul>
+  </li>
+  <li>해결방법 2
+    <ul>
+      <li>리눅스 쉘 변경</li>
+    </ul>
+    <ul>
+      <li>“chsh -l” 명령으로 쉘 종류 확인</li>
+      <li>“chsh -s /path/to/bash” 명령으로 bash 쉘로 변경(예: chsh -s /bin/bash)</li>
+    </ul>
+  </li>
+</ol>
+
+<p>In my conclousion</p>
+<blockquote>
+  <p>1) Your linux does not use bash shell.<br />
+2) Setting shell file on your environment or change your linux shell what you want</p>
+</blockquote>
+
+<ol>
+  <li>Case
+    <ul>
+      <li>Not adjusting environemnt variable after setting on ~/.bashrc file(export VAR=VALUE). Even thought you reconnect terminal.</li>
+      <li>Or source ~/.bashrc command show error message :shopt: not found [No such file or directory]”</li>
+    </ul>
+  </li>
+  <li>Reason
+    <ul>
+      <li>Your linux does not use bash shell</li>
+    </ul>
+  </li>
+  <li>Solution1
+    <ul>
+      <li>Setting environment variable on shell file which your linux use.</li>
+    </ul>
+    <ul>
+      <li>Command echo $SHELL on console terminal</li>
+      <li>Setting environment variables on file which console display after “echo $Shell” command
+        <ul>
+          <li>/bin/ksh: ksh -&gt; ~/.kshrc</li>
+          <li>/bin/zsh: zsh -&gt; ~/.zshrc</li>
+          <li>/bin/bash: bash -&gt; ~/.bashrc
+    - Reconnect terminal or command “source {shell file}”(ex: source~/.kshrc)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Solution2
+    <ul>
+      <li>Change your linux shell</li>
+    </ul>
+    <ul>
+      <li>checking your linux shell by command “chsh -l”</li>
+      <li>command “chsh -s /path/to/bash” for changing your linux shell to bash shell(ex: chsh -s /bin/bash)</li>
+    </ul>
+  </li>
+</ol>]]></content><author><name>Jinhyup Kim</name></author><category term="Linux" /><category term="Linux" /><category term="Shell" /><category term="bashrc" /><category term="bash" /><category term="ksh" /><category term="zsh" /><summary type="html"><![CDATA[결론부터 말하자면 1) Bash쉘을 안쓰는데 ~/.bashrc에 적용 하면 오류 발생 2) 사용하는 쉘에 맞는 파일에 적용 필요(kshrc, zshrc 등)]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/top_banner.jpg" /><media:content medium="image" url="http://localhost:4000/assets/images/top_banner.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">[linux] Source ~.bashrc Shopt Not Found 3</title><link href="http://localhost:4000/linux/2021/05/26/Linux-source-~.bashrc-shopt-not-found-3.html" rel="alternate" type="text/html" title="[linux] Source ~.bashrc Shopt Not Found 3" /><published>2021-05-26T00:00:00+09:00</published><updated>2021-05-27T01:06:52+09:00</updated><id>http://localhost:4000/linux/2021/05/26/%5BLinux%5D-source%20~.bashrc-shopt-not-found-3</id><content type="html" xml:base="http://localhost:4000/linux/2021/05/26/Linux-source-~.bashrc-shopt-not-found-3.html"><![CDATA[<p>결론부터 말하자면</p>
+<blockquote>
+
+</blockquote>
+
+<ol>
+  <li>왜 네티 채널 버퍼 사이즈가 1024?</li>
+  <li>통신 사이즈가 1024 초과할 경우 사용법</li>
+  <li>동적 초과일 경우 - ?
+https://groups.google.com/g/netty-ko/c/4oH_LCRSIDU
+https://groups.google.com/g/netty-ko/c/_HBGErvTkiE
+https://netty.io/wiki/user-guide-for-4.x.html#wiki-h3-11
+https://m.blog.naver.com/tommybee/221973845360
+https://stackoverflow.com/questions/26662990/bytebuf-initial-capacity-size</li>
+</ol>]]></content><author><name>Jinhyup Kim</name></author><category term="Linux" /><category term="Linux" /><category term="Shell" /><category term="bashrc" /><category term="bash" /><category term="ksh" /><category term="zsh" /><summary type="html"><![CDATA[결론부터 말하자면]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/top_banner.jpg" /><media:content medium="image" url="http://localhost:4000/assets/images/top_banner.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Logstash Plugin Bundle Install Update 오류</title><link href="http://localhost:4000/logstash/2021/05/03/Logstash-Plugin-bundle-install-update-%EC%98%A4%EB%A5%98.html" rel="alternate" type="text/html" title="Logstash Plugin Bundle Install Update 오류" /><published>2021-05-03T00:00:00+09:00</published><updated>2021-05-04T01:06:52+09:00</updated><id>http://localhost:4000/logstash/2021/05/03/Logstash-Plugin-bundle-install-update-%EC%98%A4%EB%A5%98</id><content type="html" xml:base="http://localhost:4000/logstash/2021/05/03/Logstash-Plugin-bundle-install-update-%EC%98%A4%EB%A5%98.html"><![CDATA[<p>결론부터 말하자면</p>
+<blockquote>
+  <p>1) JRUBY 설정 필요 (윈도우 사용자는 정신건강을 위해 WSL을 통한 우분투 사용 추천)
+2) 환경변수 설정 필요</p>
+</blockquote>
+
+<p>In my conclousion</p>
+<blockquote>
+  <p>1) Setting your rvm to use JRUBY (If you are Windows user, I recommend to use WSL with Ubuntu for saving your metal energy)<br />
+2) Setting ENV variables</p>
+</blockquote>
+
+<ul>
+  <li>테스트 대상(Test Target): logstash-integration-jdbc</li>
+  <li>URL: https://github.com/logstash-plugins/logstash-integration-jdbc</li>
+</ul>
+
+<p><img src="/assets/images/posts/20210503_1.PNG" alt="Image Alt 에러1" /></p>
+<ol>
+  <li>에러 메시지: “Could not find gem ‘logstash-devutils’ in any of the gem sources listed in your Gemfile.”
+    <ul>
+      <li>원인: Logstash Plugin은 jRUBY를 사용하므로 rvm에서 jruby 설치 후 대상 엔진 변경이 필요</li>
+      <li>비고: 윈도우즈에서는 jruby 인식이 잘 안되는 현상 발생. 가급적 WSL을 통한 우분투에서 rvm 설치 및 컴파일 권장</li>
+      <li>Cause: Logstash Plugin is based on jRUBY. So you have to set rvm to use jruby</li>
+      <li>E.T.C: In windows, setting jruby was not easy for me. I recommend to use WSL with Ubuntu and set rvm.
+<img src="/assets/images/posts/20210503_2.PNG" alt="Image Alt 에러1해결" /></li>
+    </ul>
+  </li>
+</ol>
+
+<p><img src="/assets/images/posts/20210503_3.PNG" alt="Image Alt 에러2" /></p>
+<ol>
+  <li>에러 메시지: “Bundler could not find compatible versions for gem “logstash-core””
+    <ul>
+      <li>원인: 플러그인 컴파일 시, Logstash의 Core등의 주요 파일들을 사용. 환경변수 설정을 통한 Logstash 정보 등록 필요(Gemfile 참고)</li>
+      <li>방법(우분투 기준)</li>
+    </ul>
+    <ol>
+      <li>export LOGSTASH_PATH=[Logstash 설치경로]</li>
+      <li>export LOGSTASH_SOURCE=1
+     - Cause: For compiling plugin, you need to set directory location Logstash installed (Check Gemfile)
+     - How(Ubuntu):</li>
+      <li>export LOGSTASH_PATH=[Logstash Directory]</li>
+      <li>export LOGSTASH_SOURCE=1
+<img src="/assets/images/posts/20210503_4.PNG" alt="Image Alt 에러2해결" /></li>
+    </ol>
+  </li>
+</ol>]]></content><author><name>Jinhyup Kim</name></author><category term="Logstash" /><category term="Logstash" /><category term="ruby" /><category term="jruby" /><category term="plugin" /><category term="github" /><summary type="html"><![CDATA[결론부터 말하자면 1) JRUBY 설정 필요 (윈도우 사용자는 정신건강을 위해 WSL을 통한 우분투 사용 추천) 2) 환경변수 설정 필요]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/top_banner.jpg" /><media:content medium="image" url="http://localhost:4000/assets/images/top_banner.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

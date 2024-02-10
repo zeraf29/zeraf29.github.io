@@ -1,0 +1,19 @@
+<ol>
+  <li>Purpose
+    <ul>
+      <li>Split String by delimiter and save them to array. Then print each values.</li>
+    </ul>
+  </li>
+  <li>Solution
+    <ul>
+      <li>
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>string=“word1,word2,word3” 
+array=(${string//,/ }) # Split using comma as delimiter 
+for element in “${array[@]}”; do 
+ echo “$element” 
+done
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>

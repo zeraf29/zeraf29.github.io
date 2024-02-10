@@ -1,0 +1,49 @@
+<p>결론부터 말하자면</p>
+<blockquote>
+  <p>1) JRUBY 설정 필요 (윈도우 사용자는 정신건강을 위해 WSL을 통한 우분투 사용 추천)
+2) 환경변수 설정 필요</p>
+</blockquote>
+
+<p>In my conclousion</p>
+<blockquote>
+  <p>1) Setting your rvm to use JRUBY (If you are Windows user, I recommend to use WSL with Ubuntu for saving your metal energy)<br />
+2) Setting ENV variables</p>
+</blockquote>
+
+<ul>
+  <li>테스트 대상(Test Target): logstash-integration-jdbc</li>
+  <li>URL: https://github.com/logstash-plugins/logstash-integration-jdbc</li>
+</ul>
+
+<p><img src="/assets/images/posts/20210503_1.PNG" alt="Image Alt 에러1" /></p>
+<ol>
+  <li>에러 메시지: “Could not find gem ‘logstash-devutils’ in any of the gem sources listed in your Gemfile.”
+    <ul>
+      <li>원인: Logstash Plugin은 jRUBY를 사용하므로 rvm에서 jruby 설치 후 대상 엔진 변경이 필요</li>
+      <li>비고: 윈도우즈에서는 jruby 인식이 잘 안되는 현상 발생. 가급적 WSL을 통한 우분투에서 rvm 설치 및 컴파일 권장</li>
+      <li>Cause: Logstash Plugin is based on jRUBY. So you have to set rvm to use jruby</li>
+      <li>E.T.C: In windows, setting jruby was not easy for me. I recommend to use WSL with Ubuntu and set rvm.
+<img src="/assets/images/posts/20210503_2.PNG" alt="Image Alt 에러1해결" /></li>
+    </ul>
+  </li>
+</ol>
+
+<p><img src="/assets/images/posts/20210503_3.PNG" alt="Image Alt 에러2" /></p>
+<ol>
+  <li>에러 메시지: “Bundler could not find compatible versions for gem “logstash-core””
+    <ul>
+      <li>원인: 플러그인 컴파일 시, Logstash의 Core등의 주요 파일들을 사용. 환경변수 설정을 통한 Logstash 정보 등록 필요(Gemfile 참고)</li>
+      <li>방법(우분투 기준)</li>
+    </ul>
+    <ol>
+      <li>export LOGSTASH_PATH=[Logstash 설치경로]</li>
+      <li>export LOGSTASH_SOURCE=1
+     - Cause: For compiling plugin, you need to set directory location Logstash installed (Check Gemfile)
+     - How(Ubuntu):</li>
+      <li>export LOGSTASH_PATH=[Logstash Directory]</li>
+      <li>export LOGSTASH_SOURCE=1
+<img src="/assets/images/posts/20210503_4.PNG" alt="Image Alt 에러2해결" /></li>
+    </ol>
+  </li>
+</ol>
+

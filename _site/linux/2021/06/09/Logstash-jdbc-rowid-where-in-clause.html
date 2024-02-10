@@ -1,0 +1,89 @@
+<p>결론부터 말하자면</p>
+<blockquote>
+  <p>1) Bash쉘을 안쓰는데 ~/.bashrc에 적용 하면 오류 발생<br />
+2) 사용하는 쉘에 맞는 파일에 적용 필요(kshrc, zshrc 등)</p>
+</blockquote>
+
+<ol>
+  <li>증상
+    <ul>
+      <li>~/.bashrc에 변수 설정(export VAR=VALUE)을 한 후 터미널 재 접속을 해도 적용이 안됨</li>
+      <li>또는 source ~/.bashrc 명령 시 shopt: not found [No such file or directory] 에러가나옴</li>
+    </ul>
+  </li>
+  <li>원인
+    <ul>
+      <li>사용하고 있는 쉘이 bash가 아님</li>
+    </ul>
+  </li>
+  <li>해결방법 1
+    <ul>
+      <li>사용하고 있는 쉘에 맞는 파일에 설정</li>
+    </ul>
+    <ul>
+      <li>콘솔에 echo $SHELL 명령</li>
+      <li>콘솔에 표시된 쉘에 맞는 쉘 파일에 환경변수 등록
+        <ul>
+          <li>/bin/ksh: ksh 쉘 -&gt; ~/.kshrc</li>
+          <li>/bin/zsh: zsh 쉘 -&gt; ~/.zshrc</li>
+          <li>/bin/bash: bash 쉘 -&gt; ~/.bashrc</li>
+        </ul>
+      </li>
+      <li>콘솔 종료 후 재접속 또는 source {shell file}로 적용(예: source~/.kshrc)</li>
+    </ul>
+  </li>
+  <li>해결방법 2
+    <ul>
+      <li>리눅스 쉘 변경</li>
+    </ul>
+    <ul>
+      <li>“chsh -l” 명령으로 쉘 종류 확인</li>
+      <li>“chsh -s /path/to/bash” 명령으로 bash 쉘로 변경(예: chsh -s /bin/bash)</li>
+    </ul>
+  </li>
+</ol>
+
+<p>In my conclousion</p>
+<blockquote>
+  <p>1) Your linux does not use bash shell.<br />
+2) Setting shell file on your environment or change your linux shell what you want</p>
+</blockquote>
+
+<ol>
+  <li>Case
+    <ul>
+      <li>Not adjusting environemnt variable after setting on ~/.bashrc file(export VAR=VALUE). Even thought you reconnect terminal.</li>
+      <li>Or source ~/.bashrc command show error message :shopt: not found [No such file or directory]”</li>
+    </ul>
+  </li>
+  <li>Reason
+    <ul>
+      <li>Your linux does not use bash shell</li>
+    </ul>
+  </li>
+  <li>Solution1
+    <ul>
+      <li>Setting environment variable on shell file which your linux use.</li>
+    </ul>
+    <ul>
+      <li>Command echo $SHELL on console terminal</li>
+      <li>Setting environment variables on file which console display after “echo $Shell” command
+        <ul>
+          <li>/bin/ksh: ksh -&gt; ~/.kshrc</li>
+          <li>/bin/zsh: zsh -&gt; ~/.zshrc</li>
+          <li>/bin/bash: bash -&gt; ~/.bashrc
+    - Reconnect terminal or command “source {shell file}”(ex: source~/.kshrc)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Solution2
+    <ul>
+      <li>Change your linux shell</li>
+    </ul>
+    <ul>
+      <li>checking your linux shell by command “chsh -l”</li>
+      <li>command “chsh -s /path/to/bash” for changing your linux shell to bash shell(ex: chsh -s /bin/bash)</li>
+    </ul>
+  </li>
+</ol>
