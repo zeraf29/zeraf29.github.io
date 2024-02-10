@@ -1,30 +1,3 @@
-Skip to content
-zeraf29
-/
-zeraf29.github.io
-
-Type / to search
-
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-Commit
-blog edit
-master
-@zeraf29
-zeraf29 committed 5 hours ago
-1 parent 52770e4
-commit a4eacd0
-Showing 1 changed file with 47 additions and 0 deletions.
-47 changes: 47 additions & 0 deletions47  
-_posts/2024-02-10-[Linux]-what-is-different-between-su-and-sudo.md
-@@ -0,0 +1,47 @@
 ---
 # optional alternate title to replace page.title at the top of the page
 alt_title: "[Linux]What is different between su and sudo"
@@ -33,34 +6,35 @@ alt_title: "[Linux]What is different between su and sudo"
 sub_title: "[Linux] Switches you completely to another user account or Elevates privileges for a specific command only."
 
 categories:
-- Linux
-  tags:
-- Linux
-- account
-- secure
-  last_modified_at: 2024-02-10T16:20:52-05:00
+   - Linux
+tags:
+   - Linux
+   - account
+   - secure
+last_modified_at: 2024-02-10T16:20:52-05:00
+
 
 # optional intro text below titles, Markdown allowed
-introduction: |
-Su is switches you completely to another user account. Sudo is elevates privileges for a specific command only.
-image:  "/assets/images/top_banner.jpg" # URL to a hero image associated with the post (e.g., /assets/page-pic.jpg)
+introduction: Su is switches you completely to another user account. Sudo is elevates privileges for a specific command only.
 
-# post specific author data if different from what is set in _config.yml
+image:  "/assets/images/top_banner.jpg" # URL to a hero image associated with the post (e.g., /assets/page-pic.jpg)
+# post specific author data if different from what is set in _config.yml 
 author:
-name: Jinhyup Kim
+  name: Jinhyup Kim 
 
 comments: true  # disable comments on this post
 ---
 
+
 1. Functionality
-- /usr/sh/su:
-    - Switches you completely to another user account.
-    - You inherit the new user's environment, including their shell (sh in this case) and permissions.
-    - Requires the password of the target user.
-- sudo:
-    - Elevates privileges for a specific command only.
-    - Executes the command in your current shell environment with root permissions.
-    - Requires your own password (unless configured differently).
+    - /usr/sh/su:
+        - Switches you completely to another user account.
+        - You inherit the new user's environment, including their shell (sh in this case) and permissions.
+        - Requires the password of the target user.
+    - sudo:
+        - Elevates privileges for a specific command only.
+        - Executes the command in your current shell environment with root permissions.
+        - Requires your own password (unless configured differently).
 2. Security:
     - /usr/sh/su:
         - Highly insecure: Grants full access to the target user's account, including files, programs, and configurations.
@@ -71,21 +45,3 @@ comments: true  # disable comments on this post
         - Reduces the potential damage if misused.
         - Provides finer-grained control through configuration files like /etc/sudoers.
         - Preferred for granting temporary administrative privileges.
-          0 comments on commit a4eacd0
-          @zeraf29
-          Comment
-
-Leave a comment
-
-Footer
-© 2024 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
-Security
-Status
-Docs
-Contact
-Manage cookies
-Do not share my personal information
-blog edit · zeraf29/zeraf29.github.io@a4eacd0
