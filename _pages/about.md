@@ -2,7 +2,6 @@
 title: "About"
 permalink: /about/
 layout: single
-excerpt: "zeraf29's daily log"
 toc: true
 author_profile: true
 ---
