@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb4db044-2991-4b84-b543-0510a4397b34" name="Changes" comment="reset">
+      <change afterPath="$PROJECT_DIR$/assets/img/common/zeraf29_about.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/img/common/zeraf29_logo.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/_config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_site/feed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/_site/feed.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +36,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/jinhyupkim/IdeaProjects/zeraf29.github.io",
+    "last_opened_file_path": "/Users/jinhyupkim/IdeaProjects/zeraf29.github.io/assets",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -43,8 +47,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/assets" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/_posts" />
       <recent name="$PROJECT_DIR$/assets/img/common" />
     </key>
@@ -67,7 +71,7 @@
       <workItem from="1706513440781" duration="7413000" />
       <workItem from="1706923054701" duration="587000" />
       <workItem from="1707253149915" duration="592000" />
-      <workItem from="1707437113814" duration="14233000" />
+      <workItem from="1707437113814" duration="14430000" />
     </task>
     <task id="LOCAL-00001" summary="blog edit">
       <option name="closed" value="true" />
@@ -397,7 +401,15 @@
       <option name="project" value="LOCAL" />
       <updated>1707570820309</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="reset">
+      <option name="closed" value="true" />
+      <created>1707571173571</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1707571173571</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
