@@ -1,19 +1,25 @@
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- Backup, in lieu of jekyll-seo gem -->
-	<title>{% if page.title %}{{ page.title }}{% else %}{{ site.title | default: site.github.repository_name }}{% endif %}</title>
-	<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-	<meta name="robots" content="index, follow">
-	<!-- End SEO backup -->
+<meta charset="utf-8">
 
-	<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
-	<link rel="canonical" href="{{ site.baseurl }}{{ page.url }}">
+{% include seo.html %}
 
-	<link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/assets/img/simpol-favicon.png">
-	<link rel="icon" type="image/png" href="{{ site.baseurl }}/assets/img/simpol-favicon.png" sizes="32x32">
-	<link rel="icon" type="image/png" href="{{ site.baseurl }}/assets/img/simpol-favicon.png" sizes="16x16">
+{% unless site.atom_feed.hide %}
+  <link href="{% if site.atom_feed.path %}{{ site.atom_feed.path }}{% else %}{{ '/feed.xml' | relative_url }}{% endif %}" type="application/atom+xml" rel="alternate" title="{{ site.title }} Feed">
+{% endunless %}
 
-	{% seo %}
-	{% feed_meta %}
-</head>
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+{% if site.head_scripts %}
+  {% for script in site.head_scripts %}
+    <script src="{{ script | relative_url }}"></script>
+  {% endfor %}
+{% endif %}
