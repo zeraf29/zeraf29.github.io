@@ -40,6 +40,8 @@ comments: true  # disable comments on this post
 3. Solution
    - Place gradle-all.zip file in distributionPath
    - Set gradle-wrapper.properties like below
+ 
+
 ```
 distributionBase=GRADLE_USER_HOME
 distributionPath=wrapper/dists
@@ -52,6 +54,7 @@ zipStoreBase=GRADLE_USER_HOME
 zipStorePath=wrapper/dists
 
 ```
+
 4. Reference
    - https://github.com/gradle/gradle/issues/18249
    - https://youtrack.jetbrains.com/issue/KTIJ-21810
