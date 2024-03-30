@@ -39,4 +39,4 @@ comments: true  # disable comments on this post
   - If not qualifier Actions bean name while DI, ActionStarter bean is getting all same type beans(DI bean type)
     ![Qualifier]({{"/assets/img/posts/qualifier/qualifier_4.png"| relative_url}}) 
 2. Test Source
-  - https://github.com/zeraf29/Spring_Boot_Qualifier_Test
+  - [github repository](https://github.com/zeraf29/Spring_Boot_Qualifier_Test)
