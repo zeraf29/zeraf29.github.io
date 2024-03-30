@@ -99,7 +99,7 @@ social:
 analytics:
   provider               : "google-gtag"
   google:
-    tracking_id          : G-BF5659K515
+    tracking_id          : G-Z104J03S29
     anonymize_ip         : false
 
 
